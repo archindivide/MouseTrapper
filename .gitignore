@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs/MouseTrapper/v14
+/MouseTrapper/obj/Debug
+/MouseTrapper/bin/Debug

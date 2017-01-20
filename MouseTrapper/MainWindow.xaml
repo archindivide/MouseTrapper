@@ -1,0 +1,51 @@
+﻿<Window x:Class="MouseTrapper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MouseTrapper"
+        mc:Ignorable="d"
+        Title="Mouse Trapper" Height="150" Width="400"
+        ResizeMode="NoResize"
+        Activated="Window_Activated">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- Row 1 -->
+        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">
+            Coordinates:
+        </Label>
+        <TextBox Name="txtCoordinates" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="5,5,5,5" VerticalContentAlignment="Center" KeyDown="txtCoordinates_KeyDown" LostFocus="txtCoordinates_LostFocus"></TextBox>
+        <Button Name="btnRemapCoordinates" Grid.Row="1" Grid.Column="3" Margin="5,5,5,5" Click="btnRemapCoordinates_Click">
+            Remap
+        </Button>
+
+        <!-- Row 2 -->
+        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            Stop Hotkey: Ctrl + F7
+        </Label>
+        <Label Name="lblError" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red">
+            
+        </Label>
+
+        <!-- Row 3 -->
+        <Button Name="btnStartStop" Grid.Row="3" Grid.Column="0" Margin="5,5,5,5" Click="btnStartStop_Click">
+            Start
+        </Button>
+        <Label Name="lblVersion" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+        <Button Name="btnExit" Grid.Row="3" Grid.Column="3" Margin="5,5,5,5" Click="btnExit_Click">
+            Exit
+        </Button>
+    </Grid>
+</Window>
