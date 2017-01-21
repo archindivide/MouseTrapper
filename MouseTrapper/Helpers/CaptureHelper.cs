@@ -129,14 +129,21 @@ namespace MouseTrapper.Helpers
 
         public static void CaptureMouse(bool reset)
         {
-            if(reset)
+            if (reset)
             {
                 ClipCursor(ref _defaultCapArea);
             }
             else
             {
+                RECT clip;
+                GetClipCursor(out clip);
+
                 RECT area = (RECT)BoundArea;
-                ClipCursor(ref area);
+
+                if (clip != area)
+                {
+                    ClipCursor(ref area);
+                }
             }
         }
 
@@ -189,6 +196,22 @@ namespace MouseTrapper.Helpers
             public static implicit operator RECT(Rect rect)
             {
                 return new RECT((int)rect.Left, (int)rect.Top, (int)rect.Right, (int)rect.Bottom);
+            }
+
+            public static bool operator ==(RECT first, RECT second)
+            {
+                return first.Top == second.Top && 
+                       first.Bottom == second.Bottom &&
+                       first.Left == second.Left &&
+                       first.Right == second.Right;
+            }
+
+            public static bool operator !=(RECT first, RECT second)
+            {
+                return first.Top != second.Top ||
+                       first.Bottom != second.Bottom ||
+                       first.Left != second.Left ||
+                       first.Right != second.Right;
             }
             #endregion
 

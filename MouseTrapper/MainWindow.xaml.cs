@@ -1,6 +1,7 @@
 ﻿using MouseTrapper.Helpers;
 using Ownskit.Utils;
 using System;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,7 +12,7 @@ namespace MouseTrapper
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private Timer _timer;
+        private Timer _timer;
         private KeyboardListener _keyboardListener;
         private RawKeyEventHandler _keyEventHandler;
 
@@ -22,8 +23,18 @@ namespace MouseTrapper
 
             lblVersion.Content = $"Version {typeof(MainWindow).Assembly.GetName().Version}";
             txtCoordinates.Text = CaptureHelper.CoordinateDisplay;
+
             _keyboardListener = new KeyboardListener();
             _keyEventHandler = new RawKeyEventHandler(KeyboardListener_KeyDown);
+
+            _timer = new Timer();
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Interval = 100;
+        }
+
+        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            CaptureHelper.CaptureMouse(!CaptureHelper.IsCapturing);
         }
 
         private void btnRemapCoordinates_Click(object sender, RoutedEventArgs e)
@@ -36,13 +47,13 @@ namespace MouseTrapper
         {
             CaptureHelper.IsCapturing = !CaptureHelper.IsCapturing;
 
-            CaptureHelper.CaptureMouse(!CaptureHelper.IsCapturing);
-
             if (CaptureHelper.IsCapturing)
             {
                 btnRemapCoordinates.IsEnabled = false;
                 txtCoordinates.IsReadOnly = true;
                 btnStartStop.Content = "Stop";
+
+                _timer.Start();
 
                 _keyboardListener.KeyDown += _keyEventHandler;
             }
@@ -51,6 +62,10 @@ namespace MouseTrapper
                 btnRemapCoordinates.IsEnabled = true;
                 txtCoordinates.IsReadOnly = false;
                 btnStartStop.Content = "Start";
+
+                _timer.Stop();
+                //After stopping the timer we need to reset the clip
+                CaptureHelper.CaptureMouse(true);
 
                 _keyboardListener.KeyDown -= _keyEventHandler; 
             }
